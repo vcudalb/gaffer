@@ -1,7 +1,7 @@
 {
   "name": "gaffer",
   "version": "1.0.0",
-  "description": "",
+  "description": "This repository is maintained by [vcudalb](cudalb.vasile@gmail.com) and licensed under the [MIT License](LICENSE.txt).",
   "main": "src/gaffer.js",
   "directories": {
     "test": "tests"
@@ -9,10 +9,16 @@
   "author": "vcudalb",
   "license": "MIT",
   "dependencies": {
+    "@discordjs/builders": "^1.6.5",
+    "axios": "^1.4.0",
+    "country-code-emoji": "^2.3.0",
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "eslint": "^8.47.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

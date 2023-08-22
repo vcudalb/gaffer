@@ -1,8 +1,8 @@
 ﻿require('dotenv').config();
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const prefix = '!';
-const fs = require('fs');
-const path = require("path");
+const fs = require('node:fs');
+const path = require('node:path');
 const client = createClient();
 
 client.once(Events.ClientReady, () => {
@@ -46,16 +46,20 @@ function createClient(){
 function setClientCommands(client)
 {
     client.commands = new Collection();
-    const commandsPath = path.join(__dirname, 'commands');
-    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+    const foldersPath = path.join(__dirname, 'commands');
+    const commandFolders = fs.readdirSync(foldersPath);
 
-    for (const file of commandFiles) {
-        const filePath = path.join(commandsPath, file);
-        const command = require(filePath);
-        if ('execute' in command) {
-            client.commands.set(command.name, command);
-        } else {
-            console.warn(`The command at ${filePath} is missing required "execute" property.`);
+    for (const folder of commandFolders) {
+        const commandsPath = path.join(foldersPath, folder);
+        const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+        for (const file of commandFiles) {
+            const filePath = path.join(commandsPath, file);
+            const command = require(filePath);
+            if ('execute' in command) {
+                client.commands.set(command.data.name, command);
+            } else {
+                console.log(`[WARNING] The command at ${filePath} is missing a required "execute" property.`);
+            }
         }
     }
 }

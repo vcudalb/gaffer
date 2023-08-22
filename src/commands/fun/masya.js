@@ -1,6 +1,8 @@
 ﻿module.exports = {
-    name: 'masya',
-    description: 'Shows remaining time until you will be destroyed and humiliated by Masya (23:00)',
+    data: {
+        name: 'masya',
+        description: 'Shows remaining time until you will be destroyed and humiliated by Masya (23:00)',
+    },
     execute(message, args) {
         const now = new Date();
         const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 0, 0);
