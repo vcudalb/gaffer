@@ -24,7 +24,7 @@ module.exports = {
         }
 
         try {
-            const userData = await faceitService.fetchUserInfo(username);
+            const userData= await faceitService.fetchUserInfo(username);
             if (userData === null) {
                 await message.reply(`No Faceit CS:GO stats found for \`${username}\``);
                 return;
@@ -32,7 +32,9 @@ module.exports = {
                 
             const formattedStats = templateProvider.getFaceitUserGeneralInfo(username, userData);
 
-            await message.reply(formattedStats);
+           
+            message.channel.send( { embeds: [formattedStats] });
+            //await message.reply(formattedStats);
         } catch (error) {
             console.error(error);
             await message.reply(`No Faceit CS:GO stats found for \`${username}\``);
