@@ -1,35 +1,52 @@
-﻿const {EmbedBuilder} = require('discord.js');
+﻿//const aa = require('../resources/images/author.jpg');
 
-function getFaceitUserGeneralInfo(username, userData) {
-    const csgoStats = userData.payload.games.csgo;
-    const faceitElo = csgoStats.faceit_elo;
-    const skillLevel = csgoStats.skill_level_label;
-    const createdAt = new Date(userData.payload.created_at);
-    const region = csgoStats.region;
-    const country = userData.payload.country;
-    const matchingSound = userData.payload.matching_sound;
-    const avatar = userData.payload.avatar;
-
-
-    return new EmbedBuilder()
-        .setColor(0x0099FF)
-        .setTitle('Faceit CS:GO Stats')
-        .setDescription(`CS:GO general stats for the user ${username}`)
-        .setThumbnail(avatar)
-        .setAuthor()
-        // .addFields(
-        //     {name: 'ELO', value: faceitElo, inline: true},
-        //     {name: 'Skill Level', value: skillLevel, inline: true},
-        //     {name: 'Region', value: region, inline: true},
-        //     {name: 'Country', value: country, inline: true},
-        //     {name: 'Created at', value: createdAt.toISOString(), inline: true},
-        //     {name: 'Matching Sound', value: matchingSound, inline: true},
-        //     {name: '\u200B', value: '\u200B'}, // Empty field
-        //     {name: 'For more detailed stats', value: `Use \`!faceit-lastmatches ${userData.payload.id}\``}
-        // )
-        .setTimestamp();
+function getLifeTimeEmbeds(generalData, lifetimeStats){
+    const fields = getLifeTimeFields(generalData, lifetimeStats);
+    replaceUndefined(fields);
+    const authorImagePath = __dirname;
+    return {
+        color: 0xFF5733,
+        title: `Woof woof, here are your stats! 🐾`,
+        url: `https://www.faceit.com/en/players/${generalData.payload.nickname}`,
+        fields: fields,
+        image: {
+            url: `${generalData.payload.cover_image_url}`,
+        },
+        thumbnail: {
+            url: generalData.payload.avatar || 'https://imgur.com/gallery/Xrq7EK6'
+        },
+        footer: {
+            text: 'Who is the good boy? YOU!'
+        },
+        timestamp: new Date()
+    };
 }
 
 module.exports = {
-    getFaceitUserGeneralInfo,
+    getLifeTimeEmbeds
 };
+
+function replaceUndefined(fields) {
+    fields.forEach(field => {
+        if (field.value === undefined) {
+            field.value = '\u200B';
+        }
+    });
+}
+
+function getLifeTimeFields(generalData, lifetimeStats) {
+    return  [
+        { name: 'ELO', value: generalData.payload.games.csgo.faceit_elo, inline: true },
+        { name: 'Skill Level', value: generalData.payload.games.csgo.skill_level_label, inline: true },
+        { name: 'Total Matches', value: lifetimeStats.m1, inline: true },
+        { name: 'Win Rate %', value: lifetimeStats.k6, inline: true },
+        { name: 'Wins', value: lifetimeStats.m2, inline: true },
+        { name: 'Average K/D Ratio', value: lifetimeStats.k5, inline: true },
+        { name: 'Total Headshots', value: lifetimeStats.m13, inline: true },
+        { name: 'Current Win Streak', value: lifetimeStats.s1, inline: true },
+        { name: 'Longest Win Streak', value: lifetimeStats.s2, inline: true },
+        { name: 'Region', value: generalData.payload.games.csgo.region, inline: true },
+        { name: 'Country', value: generalData.payload.country, inline: true },
+        { name: 'Matching sound', value: generalData.payload.matching_sound, inline: true }
+    ];
+}
