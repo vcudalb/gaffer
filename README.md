@@ -43,3 +43,6 @@ Contributions to Gaffer are welcome! If you'd like to contribute:
 5. Open a pull request to this repository.
 
 Please ensure that your contributions follow the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md).
+
+## Disclaimer
+Gaffer discord bot is a third-party application and not affiliated with FACEIT.
