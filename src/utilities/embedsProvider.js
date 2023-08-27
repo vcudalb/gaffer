@@ -1,6 +1,4 @@
-﻿module.exports = {
-    getLifeTimeEmbeds
-};
+﻿const {countryCodeEmoji} = require("country-code-emoji");
 
 function getLifeTimeEmbeds(generalData, lifetimeStats) {
     const fields = getLifeTimeFields(generalData, lifetimeStats);
@@ -20,13 +18,14 @@ function getLifeTimeEmbeds(generalData, lifetimeStats) {
         url: `https://www.faceit.com/en/players/${generalData.payload.nickname}`,
         fields: fields,
         image: {
-            url: `${generalData.payload.cover_image_url}`,
+            url: generalData.payload.cover_image_url || 'https://imgur.com/gallery/Xrq7EK6',
         },
         thumbnail: {
             url: generalData.payload.avatar || 'https://imgur.com/gallery/Xrq7EK6'
         },
         footer: {
-            text: 'Who is the good boy? YOU!'
+            text: `For more commands use: !gaffer-help`,
+            icon_url: 'https://raw.githubusercontent.com/vcudalb/gaffer/c6d6e3282895be479e8f7f3c7e49970bfdeb803f/src/resources/images/piosg.png',
         },
         timestamp: new Date()
     };
@@ -44,13 +43,13 @@ function getLifeTimeFields(generalData, lifetimeStats) {
     return [
         {name: 'Total Matches', value: lifetimeStats.m1, inline: true},
         {name: 'Win Rate %', value: lifetimeStats.k6, inline: true},
-        {name: 'Wins', value: lifetimeStats.m2, inline: true},
+        {name: 'Wins 🏆', value: lifetimeStats.m2, inline: true},
         {name: 'Average K/D Ratio', value: lifetimeStats.k5, inline: true},
-        {name: 'Total Headshots', value: lifetimeStats.m13, inline: true},
+        {name: 'Headshots 🤯', value: lifetimeStats.m13, inline: true},
         {name: 'Current Win Streak', value: lifetimeStats.s1, inline: true},
         {name: 'Longest Win Streak', value: lifetimeStats.s2, inline: true},
         {name: 'Region', value: generalData.payload.games.csgo.region, inline: true},
-        {name: 'Country', value: generalData.payload.country, inline: true},
+        {name: 'Country', value: countryCodeEmoji(generalData.payload.country), inline: true},
         {name: 'Matching sound', value: generalData.payload.matching_sound, inline: true}
     ];
 }
@@ -83,3 +82,6 @@ function getEloThresholds(currentElo) {
     return `${lowerRange.max + 1}   [🔽${eloToDowngrade}]    [🔼${eloToUpgrade}]   ${upperRange.max}`;
 }
 
+module.exports = {
+    getLifeTimeEmbeds
+};

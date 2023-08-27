@@ -4,9 +4,21 @@ const prefix = '!';
 const fs = require('node:fs');
 const path = require('node:path');
 const client = createClient();
+const cron = require('node-cron');
 
-client.once(Events.ClientReady, () => {
+client.once(Events.ClientReady, async () => {
     console.log(`Client: ${client.user.tag} ready to receive messages since:${new Date().toUTCString()}!`);
+
+    // const initialTime = new Date();
+    // initialTime.setHours(8, 0, 0, 0);
+    // const intervalMs = 60 * 60 * 1000 + 30 * 60 * 1000;
+    // let nextTime = initialTime.getTime() + intervalMs;
+    // setTimeout(() => {
+    //     sendNotification(process.env.STARYI_ID, process.env.TRUE_DOGS_CHANNEL_ID);
+    //     setInterval(() => {
+    //         sendNotification(process.env.STARYI_ID, process.env.TRUE_DOGS_CHANNEL_ID);
+    //     }, intervalMs);
+    // }, nextTime - Date.now());
 });
 
 setClientCommands(client);
@@ -66,4 +78,19 @@ function setClientCommands(client)
 
 function isValidMessage(message){
     return !(!message.content.startsWith(prefix) || message.author.bot);
+}
+
+async function sendNotification(userId, channelId) {
+    try {
+        const user = await client.users.fetch(userId);
+        const channel = await client.channels.fetch(channelId);
+
+        if (user && channel) {
+            channel.send(`${user} Drink some water, you old dried out 💩!`);
+        } else {
+            console.log('User not found.');
+        }
+    } catch (error) {
+        console.error('Error sending notification:', error);
+    }
 }
