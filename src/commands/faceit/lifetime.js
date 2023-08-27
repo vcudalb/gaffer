@@ -1,5 +1,5 @@
 ﻿const faceitService = require('../../services/faceit/faceitService.js');
-const templateProvider = require('../../utilities/templateProvider.js');
+const embedsProvider = require('../../utilities/embedsProvider');
 
 module.exports = {
     data: {
@@ -33,7 +33,7 @@ module.exports = {
                 await message.reply(`Hey, bark at your human and ask them if this is what they call you, buddy: \`${userData.payload.id}\``);
                 return;
             }
-            const embeds = templateProvider.getLifeTimeEmbeds(userData, lifeTimeData.lifetime);
+            const embeds = embedsProvider.getLifeTimeEmbeds(userData, lifeTimeData.lifetime);
 
             await message.reply({ embeds: [embeds] });
         } catch (error) {
