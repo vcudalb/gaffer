@@ -1,4 +1,5 @@
 ﻿const {countryCodeEmoji} = require("country-code-emoji");
+const baseImagePath = `https://raw.githubusercontent.com/vcudalb/gaffer/develop/src/resources/images/`
 
 function getLifeTimeEmbeds(generalData, lifetimeStats) {
     const fields = getLifeTimeFields(generalData, lifetimeStats);
@@ -6,28 +7,48 @@ function getLifeTimeEmbeds(generalData, lifetimeStats) {
 
     const currentElo = generalData.payload.games.csgo.faceit_elo;
     const eloThresholdDetails = getEloThresholds(currentElo);
-    let skillLevelPic = `https://raw.githubusercontent.com/vcudalb/gaffer/c6d6e3282895be479e8f7f3c7e49970bfdeb803f/src/resources/images/level${generalData.payload.games.csgo.skill_level_label.toString()}.png`;
+    let skillLevelPic = `${baseImagePath}level${generalData.payload.games.csgo.skill_level_label.toString()}.png`;
     return {
         color: 0xFF5500,
-        title: `Woof woof, here are your stats! 🐾`,
         author: {
             name: `ELO: ${currentElo.toString()}\n ${eloThresholdDetails}`,
             icon_url: skillLevelPic,
-            url: 'https://discord.js.org',
+            url: `https://www.faceit.com/en/players/${generalData.payload.nickname}`,
         },
         url: `https://www.faceit.com/en/players/${generalData.payload.nickname}`,
         fields: fields,
         image: {
-            url: generalData.payload.cover_image_url || 'https://imgur.com/gallery/Xrq7EK6',
+            url: generalData.payload.cover_image_url || 'https://corporate.faceit.com/wp-content/uploads/corporate-banner.jpg',
         },
         thumbnail: {
-            url: generalData.payload.avatar || 'https://imgur.com/gallery/Xrq7EK6'
+            url: generalData.payload.avatar || `${baseImagePath}saddog.png`
         },
         footer: {
-            text: `For more commands use: !gaffer-help`,
-            icon_url: 'https://raw.githubusercontent.com/vcudalb/gaffer/c6d6e3282895be479e8f7f3c7e49970bfdeb803f/src/resources/images/piosg.png',
+            text: `Explore more commands using: !gaffer-help \n`,
+            icon_url: `${baseImagePath}piosg.PNG`,
+        }
+    };
+}
+
+function getLifeTimeMapEmbeds(nickname, mapStats, mapName) {
+    const fields = getLifeTimeMapFields(mapStats);
+    replaceUndefined(fields);
+    return {
+        color: 0xFF5500,
+        author: {
+            name: `Total matches: ${mapStats.m1}`,
+            icon_url: ``,
+            url: `https://www.faceit.com/en/players/${nickname}/stats/csgo`,
         },
-        timestamp: new Date()
+        url: `https://www.faceit.com/en/players/${nickname}/stats/csgo`,
+        fields: fields,
+        image: {
+            url: `https://cdn.faceit.com/static/stats_assets/csgo/maps/200x125/csgo-votable-maps-${mapName}-200x125.jpg` || 'https://corporate.faceit.com/wp-content/uploads/corporate-banner.jpg',
+        },
+        footer: {
+            text: `Explore more commands using: !gaffer-help \n`,
+            icon_url: `${baseImagePath}piosg.PNG`,
+        }
     };
 }
 
@@ -43,15 +64,38 @@ function getLifeTimeFields(generalData, lifetimeStats) {
     return [
         {name: 'Total Matches', value: lifetimeStats.m1, inline: true},
         {name: 'Win Rate %', value: lifetimeStats.k6, inline: true},
-        {name: 'Wins 🏆', value: lifetimeStats.m2, inline: true},
+        {name: 'Wins', value: lifetimeStats.m2, inline: true},
         {name: 'Average K/D Ratio', value: lifetimeStats.k5, inline: true},
-        {name: 'Headshots 🤯', value: lifetimeStats.m13, inline: true},
+        {name: 'Headshots', value: lifetimeStats.m13, inline: true},
         {name: 'Current Win Streak', value: lifetimeStats.s1, inline: true},
         {name: 'Longest Win Streak', value: lifetimeStats.s2, inline: true},
         {name: 'Region', value: generalData.payload.games.csgo.region, inline: true},
         {name: 'Country', value: countryCodeEmoji(generalData.payload.country), inline: true},
         {name: 'Matching sound', value: generalData.payload.matching_sound, inline: true}
     ];
+}
+
+function getLifeTimeMapFields(mapStats){
+    return [
+        { name: 'Matches', value: mapStats.m1, inline: true },
+        { name: 'Wins', value: mapStats.m2, inline: true },
+        { name: 'Win Rate', value: `${mapStats.k6}%`, inline: true },
+        { name: 'Kills', value: mapStats.m3, inline: true },
+        { name: 'Deaths', value: mapStats.m4, inline: true },
+        { name: 'K/D Ratio', value: mapStats.k5, inline: true },
+        { name: 'Headshots', value: `${mapStats.k8}%`, inline: true },
+        { name: 'Assists', value: mapStats.m5, inline: true },
+        { name: 'MVPs', value: mapStats.m6, inline: true },
+        { name: 'Rounds', value: mapStats.m8, inline: true },
+        { name: 'Headshots', value: mapStats.m9, inline: true },
+        { name: 'Triple Kills', value: mapStats.m10, inline: true },
+        { name: 'Quadro Kills', value: mapStats.m11, inline: true },
+        { name: 'ACEs', value: mapStats.m12, inline: true },
+        { name: 'Average Kills', value: mapStats.k1, inline: true },
+        { name: 'Average Deaths', value: mapStats.k2, inline: true },
+        { name: 'Average Assists', value: mapStats.k3, inline: true },
+        { name: 'Average MVPs', value: mapStats.k4, inline: true }
+    ]
 }
 
 function getEloThresholds(currentElo) {
@@ -83,5 +127,6 @@ function getEloThresholds(currentElo) {
 }
 
 module.exports = {
-    getLifeTimeEmbeds
+    getLifeTimeEmbeds,
+    getLifeTimeMapEmbeds
 };

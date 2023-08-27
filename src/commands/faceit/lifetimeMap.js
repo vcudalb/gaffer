@@ -1,10 +1,10 @@
-﻿const faceitService = require('../../services/faceit/faceitService.js');
+const faceitService = require('../../services/faceit/faceitService.js');
 const embedsProvider = require('../../utilities/embedsProvider');
 const MAPS = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', 'de_train', 'de_vertigo'];
 
 module.exports = {
     data: {
-        name: 'fct-lt',
+        name: 'fct-ltm',
         description: 'Fetches CS:GO lifetime stats for provided user',
         options: [
             {
@@ -13,15 +13,32 @@ module.exports = {
                 type: 'STRING',
                 required: true,
             },
+            {
+                name: 'map',
+                description: 'The name of the CS:GO map',
+                type: 'STRING',
+                required: true,
+            },
         ],
     },
     async execute(message, args) {
         const username = args[0];
         if (username === undefined || username === '') {
-            await message.reply(`\`username\` parameter is required. Example \`!faceit-lt your_user_name\`.`);
+            await message.reply(`\`username\` parameter is required. Example \`!fct-lt n0wak--\`.`);
             return;
         }
 
+        const mapName = args[1];
+        if (mapName === undefined || mapName === '') {
+            await message.reply(`\`map\` parameter is required. Example \`!fct-lt n0wak-- de_nuke\`.`);
+            return;
+        }
+
+        if (!MAPS.includes(mapName)) {
+            message.reply('Invalid map name. Available maps: ' + MAPS.join(', '));
+            return;
+        }
+        
         try {
             const userData= await faceitService.fetchUserInfo(username);
             if (userData === null) {
@@ -30,11 +47,22 @@ module.exports = {
             }
             
             const lifeTimeData= await faceitService.fetchLifeTimeStats(userData.payload.id);
-            if(lifeTimeData === null){
+            if(lifeTimeData === null || lifeTimeData.segments === undefined){
                 await message.reply(`Hey, bark at your human and ask them if this is what they call you, buddy: \`${userData.payload.id}\``);
                 return;
             }
-            const embeds = embedsProvider.getLifeTimeEmbeds(userData, lifeTimeData.lifetime);
+            
+            const segments = lifeTimeData.segments;
+            const filteredSegments = Object.values(segments).filter(
+                (segment) => segment._id.game === 'csgo' && segment._id.gameMode === '5v5' && segment._id.segmentId === 'csgo_map'
+            );
+
+            if (filteredSegments.length === 0 || filteredSegments[0].segments[mapName] === undefined) {
+                message.reply('No map stats available.');
+                return;
+            }
+            
+            const embeds = embedsProvider.getLifeTimeMapEmbeds(username, filteredSegments[0].segments[mapName], mapName);
 
             await message.reply({ embeds: [embeds] });
         } catch (error) {
