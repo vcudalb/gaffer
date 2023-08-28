@@ -1,31 +1,29 @@
 ﻿const axios = require('axios');
-const USER_INFO_API_URL = 'https://api.faceit.com/users/v1/nicknames/';
-const USER_LIFETIME_INFO_API_URL = 'https://api.faceit.com/stats/v1/stats/users/';
 
-async function fetchUserInfo(username) {
+const API_URLS = {
+    userInfo: 'https://api.faceit.com/users/v1/nicknames/',
+    lifetimeStats: 'https://api.faceit.com/stats/v1/stats/users/'
+};
+
+async function fetchData(url) {
     try {
-        const response = await axios.get(`${USER_INFO_API_URL}${username}`);
-        if (response.status !== 200 || response.data === undefined) return null;
-
-        const userData = response.data;
-        if (!userData.payload?.games?.csgo) return null;
-
-        return userData;
+        const response = await axios.get(url);
+        if (response.status === 200 && response.data) {
+            return response.data;
+        }
+        return null;
     } catch (error) {
         throw new Error(`Error while fetching data from Faceit API, error message: ${error.message}`);
     }
 }
 
-async function fetchLifeTimeStats(userId) {
-    try {
-        const response = await axios.get(`${USER_LIFETIME_INFO_API_URL}${userId}/games/csgo`);
-        if (response.status !== 200 || response.data === undefined) return null;
+async function fetchUserInfo(username) {
+    const userData = await fetchData(`${API_URLS.userInfo}${username}`);
+    return userData?.payload?.games?.csgo ? userData : null;
+}
 
-        return response.data;
-        } 
-        catch (error) {
-        throw new Error(`Error while fetching lifetime stats from Faceit API, error message: ${error.message}`);
-    }
+async function fetchLifeTimeStats(userId) {
+    return await fetchData(`${API_URLS.lifetimeStats}${userId}/games/csgo`);
 }
 
 module.exports = {

@@ -4,7 +4,7 @@ const MAPS = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', '
 
 module.exports = {
     data: {
-        name: 'fct-ltm',
+        name: 'csgo-ltm',
         description: 'Fetches CS:GO lifetime stats for provided user',
         options: [
             {
@@ -24,13 +24,13 @@ module.exports = {
     async execute(message, args) {
         const username = args[0];
         if (username === undefined || username === '') {
-            await message.reply(`\`username\` parameter is required. Example \`!fct-lt n0wak--\`.`);
+            await message.reply(`\`username\` parameter is required. Example \`!fct-ltm n0wak-- de_nuke\`.`);
             return;
         }
 
         const mapName = args[1];
         if (mapName === undefined || mapName === '') {
-            await message.reply(`\`map\` parameter is required. Example \`!fct-lt n0wak-- de_nuke\`.`);
+            await message.reply(`\`map\` parameter is required. Example \`!fct-ltm n0wak-- de_nuke\`.`);
             return;
         }
 
@@ -62,7 +62,7 @@ module.exports = {
                 return;
             }
             
-            const embeds = embedsProvider.getLifeTimeMapEmbeds(username, filteredSegments[0].segments[mapName], mapName);
+            const embeds = embedsProvider.getLifeTimeMapEmbeds(username, userData.payload.avatar, filteredSegments[0].segments[mapName], mapName);
 
             await message.reply({ embeds: [embeds] });
         } catch (error) {
