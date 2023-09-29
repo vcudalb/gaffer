@@ -4,8 +4,8 @@ const MAPS = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', '
 
 module.exports = {
     data: {
-        name: 'csgo-ltm',
-        description: 'Fetches CS:GO lifetime stats for provided user',
+        name: 'cs2-ltm',
+        description: 'Fetches CS2 lifetime stats for provided user',
         options: [
             {
                 name: 'username',
@@ -54,7 +54,7 @@ module.exports = {
             
             const segments = lifeTimeData.segments;
             const filteredSegments = Object.values(segments).filter(
-                (segment) => segment._id.game === 'csgo' && segment._id.gameMode === '5v5' && segment._id.segmentId === 'csgo_map'
+                (segment) => segment._id.game === 'cs2' && segment._id.gameMode === '5v5' && segment._id.segmentId === 'csgo_map'
             );
 
             if (filteredSegments.length === 0 || filteredSegments[0].segments[mapName] === undefined) {

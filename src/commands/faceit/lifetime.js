@@ -4,8 +4,8 @@ const MAPS = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', '
 
 module.exports = {
     data: {
-        name: 'csgo-lt',
-        description: 'Fetches CS:GO lifetime stats for provided user',
+        name: 'cs2-lt',
+        description: 'Fetches CS2 lifetime stats for provided user',
         options: [
             {
                 name: 'username',

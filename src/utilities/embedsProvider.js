@@ -7,9 +7,9 @@ function getLifeTimeEmbeds(generalData, lifetimeStats) {
     const fields = getLifeTimeFields(generalData, lifetimeStats);
     replaceUndefined(fields);
 
-    const currentElo = generalData.payload.games.csgo.faceit_elo;
+    const currentElo = generalData.payload.games.cs2.faceit_elo;
     const eloThresholdDetails = getEloThresholds(currentElo);
-    let skillLevelPic = `${baseImagePath}level${generalData.payload.games.csgo.skill_level_label.toString()}.png`;
+    let skillLevelPic = `${baseImagePath}level${generalData.payload.games.cs2.skill_level_label.toString()}.png`;
     return {
         color: 0xFF5500,
         author: {
@@ -40,9 +40,9 @@ function getLifeTimeMapEmbeds(nickname, avatar, mapStats, mapName) {
         author: {
             name: `Total matches: ${mapStats.m1}`,
             icon_url: avatar || `${baseImagePath}${mapName}.jpg`,
-            url: `https://www.faceit.com/en/players/${nickname}/stats/csgo`,
+            url: `https://www.faceit.com/en/players/${nickname}/stats/cs2`,
         },
-        url: `https://www.faceit.com/en/players/${nickname}/stats/csgo`,
+        url: `https://www.faceit.com/en/players/${nickname}/stats/cs2`,
         fields: fields,
         image: {
             url: `${baseImagePath}${mapName}.jpg` || 'https://corporate.faceit.com/wp-content/uploads/corporate-banner.jpg',
@@ -71,7 +71,7 @@ function getLifeTimeFields(generalData, lifetimeStats) {
         {name: 'Headshots 🤯', value: lifetimeStats.m13, inline: true},
         {name: 'Current Win Streak ↗️', value: lifetimeStats.s1, inline: true},
         {name: 'Longest Win Streak 🔝', value: lifetimeStats.s2, inline: true},
-        {name: 'Region', value: generalData.payload.games.csgo.region, inline: true},
+        {name: 'Region', value: generalData.payload.games.cs2.region, inline: true},
         {name: 'Country', value: countryCodeEmoji(generalData.payload.country), inline: true},
         {name: 'Matching sound', value: generalData.payload.matching_sound, inline: true}
     ];

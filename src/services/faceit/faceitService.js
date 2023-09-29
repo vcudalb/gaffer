@@ -19,11 +19,11 @@ async function fetchData(url) {
 
 async function fetchUserInfo(username) {
     const userData = await fetchData(`${API_URLS.userInfo}${username}`);
-    return userData?.payload?.games?.csgo ? userData : null;
+    return userData?.payload?.games?.cs2 ? userData : null;
 }
 
 async function fetchLifeTimeStats(userId) {
-    return await fetchData(`${API_URLS.lifetimeStats}${userId}/games/csgo`);
+    return await fetchData(`${API_URLS.lifetimeStats}${userId}/games/cs2`);
 }
 
 module.exports = {
