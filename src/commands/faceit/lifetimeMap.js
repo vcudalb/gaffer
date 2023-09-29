@@ -15,7 +15,7 @@ module.exports = {
             },
             {
                 name: 'map',
-                description: 'The name of the CS:GO map',
+                description: 'The name of the CS2 map',
                 type: 'STRING',
                 required: true,
             },

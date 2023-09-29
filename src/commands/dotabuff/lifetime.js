@@ -1,7 +1,7 @@
 module.exports = {
     data: {
         name: 'dota',
-        description: 'Fetches CS:GO lifetime stats for provided user',
+        description: 'Fetches CS2 lifetime stats for provided user',
         options: [
             {
                 name: 'username',
