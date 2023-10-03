@@ -8,17 +8,6 @@ const cron = require('node-cron');
 
 client.once(Events.ClientReady, async () => {
     console.log(`Client: ${client.user.tag} ready to receive messages since:${new Date().toUTCString()}!`);
-
-    // const initialTime = new Date();
-    // initialTime.setHours(8, 0, 0, 0);
-    // const intervalMs = 60 * 60 * 1000 + 30 * 60 * 1000;
-    // let nextTime = initialTime.getTime() + intervalMs;
-    // setTimeout(() => {
-    //     sendNotification(process.env.STARYI_ID, process.env.TRUE_DOGS_CHANNEL_ID);
-    //     setInterval(() => {
-    //         sendNotification(process.env.STARYI_ID, process.env.TRUE_DOGS_CHANNEL_ID);
-    //     }, intervalMs);
-    // }, nextTime - Date.now());
 });
 
 setClientCommands(client);
