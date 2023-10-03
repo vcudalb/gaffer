@@ -4,7 +4,6 @@ const prefix = '!';
 const fs = require('node:fs');
 const path = require('node:path');
 const client = createClient();
-const cron = require('node-cron');
 
 client.once(Events.ClientReady, async () => {
     console.log(`Client: ${client.user.tag} ready to receive messages since:${new Date().toUTCString()}!`);
@@ -67,19 +66,4 @@ function setClientCommands(client)
 
 function isValidMessage(message){
     return !(!message.content.startsWith(prefix) || message.author.bot);
-}
-
-async function sendNotification(userId, channelId) {
-    try {
-        const user = await client.users.fetch(userId);
-        const channel = await client.channels.fetch(channelId);
-
-        if (user && channel) {
-            channel.send(`${user} Drink some water, you old dried out 💩!`);
-        } else {
-            console.log('User not found.');
-        }
-    } catch (error) {
-        console.error('Error sending notification:', error);
-    }
 }
