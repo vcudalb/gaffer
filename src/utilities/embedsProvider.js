@@ -54,12 +54,47 @@ function getLifeTimeMapEmbeds(nickname, avatar, mapStats, mapName) {
     };
 }
 
+function getWeatherEmbeds(weather) {
+
+}
+
 function replaceUndefined(fields) {
     fields.forEach(field => {
         if (field.value === undefined) {
             field.value = '\u200B';
         }
     });
+}
+
+// const weatherDescription = weatherData.current.condition.text;
+// const temperature = weatherData.current.temp_c;
+// const city = weatherData.location.name;
+// const country = weatherData.location.country;
+
+// const embeds = {
+//     color: 0x0099ff,
+//     title: `Weather in ${city}, ${country}`,
+//     fields: [
+//         {
+//             name: 'Description',
+//             value: weatherDescription,
+//         },
+//         {
+//             name: 'Temperature',
+//             value: `${temperature}°C`,
+//         },
+//     ],
+//     timestamp: new Date(),
+// };
+function getWeatherFields(weatherData) {
+    return [
+        {name: 'Description', value: weatherData.current.condition.text},
+        {name: 'Temperature 🌡️', value: weatherData.current.temp_c, inline: true},
+        {name: 'Feels like', value: weatherData.feelslike_c, inline: true},
+        {name: 'Wind Speed 🌬️', value: weatherData.wind_kph, inline: true},
+        {name: 'Wind Direction', value: weatherData.wind_dir, inline: true},
+        {name: 'Humidity', value: weatherData.humidity},
+    ];
 }
 
 function getLifeTimeFields(generalData, lifetimeStats) {
@@ -77,24 +112,24 @@ function getLifeTimeFields(generalData, lifetimeStats) {
     ];
 }
 
-function getLifeTimeMapFields(mapStats){
+function getLifeTimeMapFields(mapStats) {
     return [
-        { name: 'Wins 🏆', value: mapStats.m2, inline: true },
-        { name: 'Win Rate', value: `${mapStats.k6}%`, inline: true },
-        { name: 'Kills 🔫', value: mapStats.m3, inline: true },
-        { name: 'Deaths ☠️', value: mapStats.m4, inline: true },
-        { name: 'K/D Ratio', value: mapStats.k5, inline: true },
-        { name: 'Headshots 🤯', value: `${mapStats.k8}%`, inline: true },
-        { name: 'Assists', value: mapStats.m5, inline: true },
-        { name: 'MVPs 🌟', value: mapStats.m6, inline: true },
-        { name: 'Rounds', value: mapStats.m8, inline: true },
-        { name: 'Triple Kills', value: mapStats.m10, inline: true },
-        { name: 'Quadro Kills', value: mapStats.m11, inline: true },
-        { name: 'ACEs', value: mapStats.m12, inline: true },
-        { name: 'Average Kills', value: mapStats.k1, inline: true },
-        { name: 'Average Deaths', value: mapStats.k2, inline: true },
-        { name: 'Average Assists', value: mapStats.k3, inline: true },
-        { name: 'Average MVPs', value: mapStats.k4, inline: true }
+        {name: 'Wins 🏆', value: mapStats.m2, inline: true},
+        {name: 'Win Rate', value: `${mapStats.k6}%`, inline: true},
+        {name: 'Kills 🔫', value: mapStats.m3, inline: true},
+        {name: 'Deaths ☠️', value: mapStats.m4, inline: true},
+        {name: 'K/D Ratio', value: mapStats.k5, inline: true},
+        {name: 'Headshots 🤯', value: `${mapStats.k8}%`, inline: true},
+        {name: 'Assists', value: mapStats.m5, inline: true},
+        {name: 'MVPs 🌟', value: mapStats.m6, inline: true},
+        {name: 'Rounds', value: mapStats.m8, inline: true},
+        {name: 'Triple Kills', value: mapStats.m10, inline: true},
+        {name: 'Quadro Kills', value: mapStats.m11, inline: true},
+        {name: 'ACEs', value: mapStats.m12, inline: true},
+        {name: 'Average Kills', value: mapStats.k1, inline: true},
+        {name: 'Average Deaths', value: mapStats.k2, inline: true},
+        {name: 'Average Assists', value: mapStats.k3, inline: true},
+        {name: 'Average MVPs', value: mapStats.k4, inline: true}
     ]
 }
 
