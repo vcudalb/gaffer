@@ -1,6 +1,8 @@
-const faceitService = require("../../services/faceit/faceitService");
 const embedsProvider = require("../../utilities/embedsProvider");
 const {get} = require("axios");
+const API_URLS = {
+    current: 'https://api.weatherapi.com/v1/current.json',
+};
 
 module.exports = {
     data: {
@@ -15,39 +17,16 @@ module.exports = {
         }
 
         try {
-            const response = await get(
-                `https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=${location}`
-            );
-
+            const response = await get(`${API_URLS.current}?key=${process.env.WEATHER_API_KEY}&q=${location}`);
             const status = response.status;
 
             if (status === 200) {
                 const weatherData = response.data;
-                const weatherDescription = weatherData.current.condition.text;
-                const temperature = weatherData.current.temp_c;
-                const city = weatherData.location.name;
-                const country = weatherData.location.country;
-
-                const embeds = {
-                    color: 0x0099ff,
-                    title: `Weather in ${city}, ${country}`,
-                    fields: [
-                        {
-                            name: 'Description',
-                            value: weatherDescription,
-                        },
-                        {
-                            name: 'Temperature',
-                            value: `${temperature}°C`,
-                        },
-                    ],
-                    timestamp: new Date(),
-                };
-
+                const embeds = embedsProvider.getWeatherEmbeds(weatherData);
                 await message.reply({ embeds: [embeds] });
                 
             } else {
-                message.reply(`Failed to fetch weather data. Status code: ${status}`);
+                message.reply(`Failed to fetch weather data`);
             }
         } catch (error) {
             console.error(error);

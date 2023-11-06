@@ -55,7 +55,22 @@ function getLifeTimeMapEmbeds(nickname, avatar, mapStats, mapName) {
 }
 
 function getWeatherEmbeds(weather) {
+    const fields = getWeatherFields(weather);
+    replaceUndefined(fields);
 
+    return {
+        color: 0x0099FF,
+        author: {
+            name: `${weather.current.condition.text} in ${weather.location.name}, ${weather.location.country}`,
+            icon_url: `https:${weather.current.condition.icon}`,
+            url: 'https://www.weatherapi.com/weather/',
+        },
+        fields: fields,
+        footer: {
+            text: `Explore more commands using: !gaffer-help \n`,
+            icon_url: `${baseImagePath}piosg.PNG`,
+        }
+    };
 }
 
 function replaceUndefined(fields) {
@@ -66,34 +81,18 @@ function replaceUndefined(fields) {
     });
 }
 
-// const weatherDescription = weatherData.current.condition.text;
-// const temperature = weatherData.current.temp_c;
-// const city = weatherData.location.name;
-// const country = weatherData.location.country;
-
-// const embeds = {
-//     color: 0x0099ff,
-//     title: `Weather in ${city}, ${country}`,
-//     fields: [
-//         {
-//             name: 'Description',
-//             value: weatherDescription,
-//         },
-//         {
-//             name: 'Temperature',
-//             value: `${temperature}°C`,
-//         },
-//     ],
-//     timestamp: new Date(),
-// };
-function getWeatherFields(weatherData) {
+function getWeatherFields(weather) {
+    let feelsLike = weather.current.feelslike_c.toString();
+    let humidity = weather.current.humidity.toString();
+    let windKph = weather.current.wind_kph.toString();
+    let tempC = weather.current.temp_c.toString();
+    
     return [
-        {name: 'Description', value: weatherData.current.condition.text},
-        {name: 'Temperature 🌡️', value: weatherData.current.temp_c, inline: true},
-        {name: 'Feels like', value: weatherData.feelslike_c, inline: true},
-        {name: 'Wind Speed 🌬️', value: weatherData.wind_kph, inline: true},
-        {name: 'Wind Direction', value: weatherData.wind_dir, inline: true},
-        {name: 'Humidity', value: weatherData.humidity},
+        {name: 'Temperature 🌡️', value: `${tempC} °C`, inline: true},
+        {name: 'Feels like', value: `${feelsLike} °C`, inline: true},
+        {name: 'Humidity', value: `${humidity}%`},
+        {name: 'Wind Speed 🌬️', value: `${windKph} kp/h`, inline: true},
+        {name: 'Wind Direction', value: weather.current.wind_dir, inline: true},
     ];
 }
 
@@ -151,5 +150,6 @@ function getEloThresholds(currentElo) {
 
 module.exports = {
     getLifeTimeEmbeds,
-    getLifeTimeMapEmbeds
+    getLifeTimeMapEmbeds,
+    getWeatherEmbeds
 };
