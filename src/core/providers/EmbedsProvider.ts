@@ -1,9 +1,13 @@
-﻿const {countryCodeEmoji} = require("country-code-emoji");
-const {eloRanges} = require("./constants");
+import { countryCodeEmoji } from "country-code-emoji";
+import {eloRanges} from "../utilities/EloConstants";
+import {Weather} from "../../models/abstractions/Weather";
+import {CsGeneralData} from "../../models/abstractions/CsGeneralData";
+import {CsLifetimeStats} from "../../models/abstractions/CsLifetimeStats";
+import {CsMapStats} from "../../models/abstractions/CsMapStats";
 
-const baseImagePath = `https://raw.githubusercontent.com/vcudalb/gaffer/develop/src/resources/images/`
+const baseImagePath = `https://raw.githubusercontent.com/vcudalb/gaffer/develop/src/resources/images/`;
 
-function getLifeTimeEmbeds(generalData, lifetimeStats) {
+function getLifeTimeEmbeds(generalData: CsGeneralData, lifetimeStats: CsLifetimeStats) {
     const fields = getLifeTimeFields(generalData, lifetimeStats);
     replaceUndefined(fields);
 
@@ -32,7 +36,7 @@ function getLifeTimeEmbeds(generalData, lifetimeStats) {
     };
 }
 
-function getLifeTimeMapEmbeds(nickname, avatar, mapStats, mapName) {
+function getLifeTimeMapEmbeds(nickname: string, avatar: string, mapStats: CsMapStats, mapName: string) {
     const fields = getLifeTimeMapFields(mapStats);
     replaceUndefined(fields);
     return {
@@ -54,7 +58,7 @@ function getLifeTimeMapEmbeds(nickname, avatar, mapStats, mapName) {
     };
 }
 
-function getWeatherEmbeds(weather) {
+function getWeatherEmbeds(weather: Weather) {
     const fields = getWeatherFields(weather);
     replaceUndefined(fields);
 
@@ -73,7 +77,7 @@ function getWeatherEmbeds(weather) {
     };
 }
 
-function replaceUndefined(fields) {
+function replaceUndefined(fields: any[]) {
     fields.forEach(field => {
         if (field.value === undefined) {
             field.value = '\u200B';
@@ -81,58 +85,58 @@ function replaceUndefined(fields) {
     });
 }
 
-function getWeatherFields(weather) {
+function getWeatherFields(weather: Weather) {
     let feelsLike = weather.current.feelslike_c.toString();
     let humidity = weather.current.humidity.toString();
     let windKph = weather.current.wind_kph.toString();
     let tempC = weather.current.temp_c.toString();
-    
+
     return [
-        {name: 'Temperature 🌡️', value: `${tempC} °C`, inline: true},
-        {name: 'Feels like', value: `${feelsLike} °C`, inline: true},
-        {name: 'Humidity', value: `${humidity}%`},
-        {name: 'Wind Speed 🌬️', value: `${windKph} kp/h`, inline: true},
-        {name: 'Wind Direction', value: weather.current.wind_dir, inline: true},
+        { name: 'Temperature 🌡️', value: `${tempC} °C`, inline: true },
+        { name: 'Feels like', value: `${feelsLike} °C`, inline: true },
+        { name: 'Humidity', value: `${humidity}%` },
+        { name: 'Wind Speed 🌬️', value: `${windKph} kp/h`, inline: true },
+        { name: 'Wind Direction', value: weather.current.wind_dir, inline: true },
     ];
 }
 
-function getLifeTimeFields(generalData, lifetimeStats) {
+function getLifeTimeFields(generalData: CsGeneralData, lifetimeStats: CsLifetimeStats) {
     return [
-        {name: 'Total Matches', value: lifetimeStats.m1, inline: true},
-        {name: 'Win Rate', value: `${lifetimeStats.k6}%`, inline: true},
-        {name: 'Wins 🏆', value: lifetimeStats.m2, inline: true},
-        {name: 'Average K/D Ratio', value: lifetimeStats.k5, inline: true},
-        {name: 'Headshots 🤯', value: lifetimeStats.m13, inline: true},
-        {name: 'Current Win Streak ↗️', value: lifetimeStats.s1, inline: true},
-        {name: 'Longest Win Streak 🔝', value: lifetimeStats.s2, inline: true},
-        {name: 'Region', value: generalData.payload.games.cs2.region, inline: true},
-        {name: 'Country', value: countryCodeEmoji(generalData.payload.country), inline: true},
-        {name: 'Matching sound', value: generalData.payload.matching_sound, inline: true}
+        { name: 'Total Matches', value: lifetimeStats.m1, inline: true },
+        { name: 'Win Rate', value: `${lifetimeStats.k6}%`, inline: true },
+        { name: 'Wins 🏆', value: lifetimeStats.m2, inline: true },
+        { name: 'Average K/D Ratio', value: lifetimeStats.k5, inline: true },
+        { name: 'Headshots 🤯', value: lifetimeStats.m13, inline: true },
+        { name: 'Current Win Streak ↗️', value: lifetimeStats.s1, inline: true },
+        { name: 'Longest Win Streak 🔝', value: lifetimeStats.s2, inline: true },
+        { name: 'Region', value: generalData.payload.games.cs2.region, inline: true },
+        { name: 'Country', value: countryCodeEmoji(generalData.payload.country), inline: true },
+        { name: 'Matching sound', value: generalData.payload.matching_sound, inline: true }
     ];
 }
 
-function getLifeTimeMapFields(mapStats) {
+function getLifeTimeMapFields(mapStats: CsMapStats) {
     return [
-        {name: 'Wins 🏆', value: mapStats.m2, inline: true},
-        {name: 'Win Rate', value: `${mapStats.k6}%`, inline: true},
-        {name: 'Kills 🔫', value: mapStats.m3, inline: true},
-        {name: 'Deaths ☠️', value: mapStats.m4, inline: true},
-        {name: 'K/D Ratio', value: mapStats.k5, inline: true},
-        {name: 'Headshots 🤯', value: `${mapStats.k8}%`, inline: true},
-        {name: 'Assists', value: mapStats.m5, inline: true},
-        {name: 'MVPs 🌟', value: mapStats.m6, inline: true},
-        {name: 'Rounds', value: mapStats.m8, inline: true},
-        {name: 'Triple Kills', value: mapStats.m10, inline: true},
-        {name: 'Quadro Kills', value: mapStats.m11, inline: true},
-        {name: 'ACEs', value: mapStats.m12, inline: true},
-        {name: 'Average Kills', value: mapStats.k1, inline: true},
-        {name: 'Average Deaths', value: mapStats.k2, inline: true},
-        {name: 'Average Assists', value: mapStats.k3, inline: true},
-        {name: 'Average MVPs', value: mapStats.k4, inline: true}
+        { name: 'Wins 🏆', value: mapStats.m2, inline: true },
+        { name: 'Win Rate', value: `${mapStats.k6}%`, inline: true },
+        { name: 'Kills 🔫', value: mapStats.m3, inline: true },
+        { name: 'Deaths ☠️', value: mapStats.m4, inline: true },
+        { name: 'K/D Ratio', value: mapStats.k5, inline: true },
+        { name: 'Headshots 🤯', value: `${mapStats.k8}%`, inline: true },
+        { name: 'Assists', value: mapStats.m5, inline: true },
+        { name: 'MVPs 🌟', value: mapStats.m6, inline: true },
+        { name: 'Rounds', value: mapStats.m8, inline: true },
+        { name: 'Triple Kills', value: mapStats.m10, inline: true },
+        { name: 'Quadro Kills', value: mapStats.m11, inline: true },
+        { name: 'ACEs', value: mapStats.m12, inline: true },
+        { name: 'Average Kills', value: mapStats.k1, inline: true },
+        { name: 'Average Deaths', value: mapStats.k2, inline: true },
+        { name: 'Average Assists', value: mapStats.k3, inline: true },
+        { name: 'Average MVPs', value: mapStats.k4, inline: true }
     ]
 }
 
-function getEloThresholds(currentElo) {
+function getEloThresholds(currentElo: number) {
 
     const currentRange = eloRanges.find(range => currentElo >= range.min && currentElo <= range.max);
     if (!currentRange) {
@@ -148,7 +152,7 @@ function getEloThresholds(currentElo) {
     return `${lowerRange.max + 1}   [🔽${eloToDowngrade}]    [🔼${eloToUpgrade}]   ${upperRange.max}`;
 }
 
-module.exports = {
+export {
     getLifeTimeEmbeds,
     getLifeTimeMapEmbeds,
     getWeatherEmbeds
