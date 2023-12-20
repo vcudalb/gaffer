@@ -1,4 +1,4 @@
-export interface CsGeneralData {
+export interface ICsGeneralData {
     payload: {
         games: {
             cs2: {

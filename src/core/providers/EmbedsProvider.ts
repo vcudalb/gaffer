@@ -1,14 +1,15 @@
-import { countryCodeEmoji } from "country-code-emoji";
+import {countryCodeEmoji} from "country-code-emoji";
 import {eloRanges} from "../utilities/EloConstants";
-import {Weather} from "../../models/abstractions/Weather";
-import {CsGeneralData} from "../../models/abstractions/CsGeneralData";
-import {CsLifetimeStats} from "../../models/abstractions/CsLifetimeStats";
-import {CsMapStats} from "../../models/abstractions/CsMapStats";
+import {IWeather} from "../../models/abstractions/IWeather";
+import {ICsGeneralData} from "../../models/abstractions/ICsGeneralData";
+import {ICsLifetimeStats} from "../../models/abstractions/ICsLifetimeStats";
+import {ICsMapStats} from "../../models/abstractions/ICsMapStats";
+import {IEmbedsProvider} from "./abstractions/IEmbedsProvider";
 
 const baseImagePath = `https://raw.githubusercontent.com/vcudalb/gaffer/develop/src/resources/images/`;
 
-export class EmbedsProvider {
-     public getLifeTimeEmbeds(generalData: CsGeneralData, lifetimeStats: CsLifetimeStats) {
+export class EmbedsProvider implements IEmbedsProvider {
+    public getLifeTimeEmbeds(generalData: ICsGeneralData, lifetimeStats: ICsLifetimeStats): any {
         const fields = this.getLifeTimeFields(generalData, lifetimeStats);
         this.replaceUndefined(fields);
 
@@ -37,7 +38,7 @@ export class EmbedsProvider {
         };
     }
 
-    public getLifeTimeMapEmbeds(nickname: string, avatar: string, mapStats: CsMapStats, mapName: string) {
+    public getLifeTimeMapEmbeds(nickname: string, avatar: string, mapStats: ICsMapStats, mapName: string): any {
         const fields = this.getLifeTimeMapFields(mapStats);
         this.replaceUndefined(fields);
         return {
@@ -59,7 +60,7 @@ export class EmbedsProvider {
         };
     }
 
-    public getWeatherEmbeds(weather: Weather) {
+    public getWeatherEmbeds(weather: IWeather): any {
         const fields = this.getWeatherFields(weather);
         this.replaceUndefined(fields);
 
@@ -78,7 +79,7 @@ export class EmbedsProvider {
         };
     }
 
-     private replaceUndefined(fields: any[]) {
+    private replaceUndefined(fields: any[]): void {
         fields.forEach(field => {
             if (field.value === undefined) {
                 field.value = '\u200B';
@@ -86,58 +87,54 @@ export class EmbedsProvider {
         });
     }
 
-    private getWeatherFields(weather: Weather) {
+    private getWeatherFields = (weather: IWeather) => {
         let feelsLike = weather.current.feelslike_c.toString();
         let humidity = weather.current.humidity.toString();
         let windKph = weather.current.wind_kph.toString();
         let tempC = weather.current.temp_c.toString();
 
         return [
-            { name: 'Temperature 🌡️', value: `${tempC} °C`, inline: true },
-            { name: 'Feels like', value: `${feelsLike} °C`, inline: true },
-            { name: 'Humidity', value: `${humidity}%` },
-            { name: 'Wind Speed 🌬️', value: `${windKph} kp/h`, inline: true },
-            { name: 'Wind Direction', value: weather.current.wind_dir, inline: true },
+            {name: 'Temperature 🌡️', value: `${tempC} °C`, inline: true},
+            {name: 'Feels like', value: `${feelsLike} °C`, inline: true},
+            {name: 'Humidity', value: `${humidity}%`},
+            {name: 'Wind Speed 🌬️', value: `${windKph} kp/h`, inline: true},
+            {name: 'Wind Direction', value: weather.current.wind_dir, inline: true},
         ];
-    }
+    };
 
-    private getLifeTimeFields(generalData: CsGeneralData, lifetimeStats: CsLifetimeStats) {
-        return [
-            { name: 'Total Matches', value: lifetimeStats.m1, inline: true },
-            { name: 'Win Rate', value: `${lifetimeStats.k6}%`, inline: true },
-            { name: 'Wins 🏆', value: lifetimeStats.m2, inline: true },
-            { name: 'Average K/D Ratio', value: lifetimeStats.k5, inline: true },
-            { name: 'Headshots 🤯', value: lifetimeStats.m13, inline: true },
-            { name: 'Current Win Streak ↗️', value: lifetimeStats.s1, inline: true },
-            { name: 'Longest Win Streak 🔝', value: lifetimeStats.s2, inline: true },
-            { name: 'Region', value: generalData.payload.games.cs2.region, inline: true },
-            { name: 'Country', value: countryCodeEmoji(generalData.payload.country), inline: true },
-            { name: 'Matching sound', value: generalData.payload.matching_sound, inline: true }
-        ];
-    }
+    private getLifeTimeFields = (generalData: ICsGeneralData, lifetimeStats: ICsLifetimeStats) => [
+        {name: 'Total Matches', value: lifetimeStats.m1, inline: true},
+        {name: 'Win Rate', value: `${lifetimeStats.k6}%`, inline: true},
+        {name: 'Wins 🏆', value: lifetimeStats.m2, inline: true},
+        {name: 'Average K/D Ratio', value: lifetimeStats.k5, inline: true},
+        {name: 'Headshots 🤯', value: lifetimeStats.m13, inline: true},
+        {name: 'Current Win Streak ↗️', value: lifetimeStats.s1, inline: true},
+        {name: 'Longest Win Streak 🔝', value: lifetimeStats.s2, inline: true},
+        {name: 'Region', value: generalData.payload.games.cs2.region, inline: true},
+        {name: 'Country', value: countryCodeEmoji(generalData.payload.country), inline: true},
+        {name: 'Matching sound', value: generalData.payload.matching_sound, inline: true}
+    ];
 
-    private getLifeTimeMapFields(mapStats: CsMapStats) {
-        return [
-            { name: 'Wins 🏆', value: mapStats.m2, inline: true },
-            { name: 'Win Rate', value: `${mapStats.k6}%`, inline: true },
-            { name: 'Kills 🔫', value: mapStats.m3, inline: true },
-            { name: 'Deaths ☠️', value: mapStats.m4, inline: true },
-            { name: 'K/D Ratio', value: mapStats.k5, inline: true },
-            { name: 'Headshots 🤯', value: `${mapStats.k8}%`, inline: true },
-            { name: 'Assists', value: mapStats.m5, inline: true },
-            { name: 'MVPs 🌟', value: mapStats.m6, inline: true },
-            { name: 'Rounds', value: mapStats.m8, inline: true },
-            { name: 'Triple Kills', value: mapStats.m10, inline: true },
-            { name: 'Quadro Kills', value: mapStats.m11, inline: true },
-            { name: 'ACEs', value: mapStats.m12, inline: true },
-            { name: 'Average Kills', value: mapStats.k1, inline: true },
-            { name: 'Average Deaths', value: mapStats.k2, inline: true },
-            { name: 'Average Assists', value: mapStats.k3, inline: true },
-            { name: 'Average MVPs', value: mapStats.k4, inline: true }
-        ]
-    }
+    private getLifeTimeMapFields = (mapStats: ICsMapStats) => [
+        {name: 'Wins 🏆', value: mapStats.m2, inline: true},
+        {name: 'Win Rate', value: `${mapStats.k6}%`, inline: true},
+        {name: 'Kills 🔫', value: mapStats.m3, inline: true},
+        {name: 'Deaths ☠️', value: mapStats.m4, inline: true},
+        {name: 'K/D Ratio', value: mapStats.k5, inline: true},
+        {name: 'Headshots 🤯', value: `${mapStats.k8}%`, inline: true},
+        {name: 'Assists', value: mapStats.m5, inline: true},
+        {name: 'MVPs 🌟', value: mapStats.m6, inline: true},
+        {name: 'Rounds', value: mapStats.m8, inline: true},
+        {name: 'Triple Kills', value: mapStats.m10, inline: true},
+        {name: 'Quadro Kills', value: mapStats.m11, inline: true},
+        {name: 'ACEs', value: mapStats.m12, inline: true},
+        {name: 'Average Kills', value: mapStats.k1, inline: true},
+        {name: 'Average Deaths', value: mapStats.k2, inline: true},
+        {name: 'Average Assists', value: mapStats.k3, inline: true},
+        {name: 'Average MVPs', value: mapStats.k4, inline: true}
+    ];
 
-    private getEloThresholds(currentElo: number) : string {
+    private getEloThresholds = (currentElo: number): string => {
 
         const currentRange = eloRanges.find(range => currentElo >= range.min && currentElo <= range.max);
         if (!currentRange) {
@@ -152,5 +149,5 @@ export class EmbedsProvider {
 
         // @ts-ignore
         return `${lowerRange.max + 1}   [🔽${eloToDowngrade}]    [🔼${eloToUpgrade}]   ${upperRange.max}`;
-    }
+    };
 }

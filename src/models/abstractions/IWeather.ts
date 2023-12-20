@@ -1,4 +1,4 @@
-export interface Weather {
+export interface IWeather {
     current: {
         feelslike_c: number;
         humidity: number;

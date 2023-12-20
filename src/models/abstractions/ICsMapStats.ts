@@ -1,4 +1,4 @@
-export interface CsMapStats {
+export interface ICsMapStats {
     m1: number;
     m2: number;
     k6: number;

@@ -1,4 +1,4 @@
-export interface CsLifetimeStats {
+export interface ICsLifetimeStats {
     m1: number;
     k6: number;
     m2: number;
