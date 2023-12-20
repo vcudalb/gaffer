@@ -1,4 +1,6 @@
-const faceitService = require('../../services/faceit/faceitService.js');
+import {FaceitApiService} from "../../services/faceit/FaceitApiService";
+import {EmbedsProvider} from "../../core/providers/EmbedsProvider";
+
 const embedsProvider = require('../../utilities/embedsProvider');
 const MAPS = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', 'de_train', 'de_vertigo'];
 
@@ -40,13 +42,13 @@ module.exports = {
         }
         
         try {
-            const userData= await faceitService.fetchUserInfo(username);
+            const userData= await FaceitApiService.fetchUserInfo(username);
             if (userData === null) {
                 await message.reply(`Hey, bark at your human and ask them if this is what they call you, buddy: \`${username}\``);
                 return;
             }
             
-            const lifeTimeData= await faceitService.fetchLifeTimeStats(userData.payload.id);
+            const lifeTimeData= await FaceitApiService.fetchLifeTimeStats(userData.payload.id);
             if(lifeTimeData === null || lifeTimeData.segments === undefined){
                 await message.reply(`Hey, bark at your human and ask them if this is what they call you, buddy: \`${userData.payload.id}\``);
                 return;

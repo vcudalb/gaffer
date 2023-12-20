@@ -1,6 +1,4 @@
-﻿const faceitService = require('../../services/faceit/faceitService.js');
-const embedsProvider = require('../../utilities/embedsProvider');
-const MAPS = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', 'de_train', 'de_vertigo'];
+﻿const MAPS = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', 'de_train', 'de_vertigo'];
 
 module.exports = {
     data: {

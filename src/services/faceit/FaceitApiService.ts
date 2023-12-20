@@ -5,13 +5,14 @@ const API_URLS = {
     lifetimeStats: 'https://api.faceit.com/stats/v1/stats/users/'
 };
 
-class FaceitApiService{
+export class FaceitApiService{
     async fetchData(url: string): Promise<any>{
         try{
             const response: AxiosResponse = await axios.get(url);
             if (response.status === 200 && response.data) return response.data;
             return null;
         }catch (error) {
+            // @ts-ignore
             throw new Error(`Error while fetching data from Faceit API, error message: ${error.message}`);
         }
     }
@@ -25,5 +26,3 @@ class FaceitApiService{
         return await this.fetchData(`${API_URLS.lifetimeStats}${userId}/games/cs2`);
     }
 }
-
-export { FaceitApiService };
