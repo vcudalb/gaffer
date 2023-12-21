@@ -1,25 +1,36 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "baseUrl": "./",
-        "outDir": "./dist/out-tsc",
-        "forceConsistentCasingInFileNames": true,
-        "strict": true,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
-        "sourceMap": true,
-        "declaration": false,
-        "downlevelIteration": true,
-        "experimentalDecorators": true,
-        "moduleResolution": "node",
-        "importHelpers": true,
-        "resolveJsonModule": true,
-        "target": "es2020",
-        "module": "commonjs",
-        "lib": [
-            "es2020",
-            "dom"
-        ]
-    }
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2020",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "sourceMap": true,
+    "types": [
+      // add node as an option
+      "node",
+      "reflect-metadata"
+    ],
+    "typeRoots": [
+      // add path to @types
+      "node_modules/@types"
+    ],
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+  },
+  "exclude": [
+    "node_modules"
+  ],
 }

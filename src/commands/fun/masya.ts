@@ -1,11 +1,11 @@
 import { CommandInteraction } from 'discord.js';
 
-export const masyaCommand = {
+export const masya = {
     data: {
         name: 'masya',
         description: 'Shows remaining time until you will be destroyed and humiliated by Masya (23:00)',
     },
-    execute(interaction: CommandInteraction) {
+    async execute(interaction: CommandInteraction): Promise<void> {
         const { hours, minutes, seconds } = formatRemainingTime(getRemainingTime(23, 0, 0));
         interaction.reply(`Time left until you will be destroyed and humiliated by Masya: ${hours}h ${minutes}m ${seconds}s.`)
             .catch(error => console.error('Failed to reply to masya command:', error));

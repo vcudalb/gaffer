@@ -1,6 +1,6 @@
-import {EloRange} from "../../models/abstractions/EloRange";
+import {IEloRange} from "../../models/abstractions/IEloRange";
 
-const eloRanges: EloRange[] = [
+const eloRanges: IEloRange[] = [
     { level: 1, min: 1, max: 800 },
     { level: 2, min: 801, max: 950 },
     { level: 3, min: 951, max: 1100 },

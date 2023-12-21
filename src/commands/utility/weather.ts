@@ -7,7 +7,7 @@ const API_URLS = {
     current: 'https://api.weatherapi.com/v1/current.json',
 };
 
-export const weatherCommand = {
+export const weather = {
     data: {
         name: 'weather',
         description: 'Provides weather stats for a specific location',
@@ -20,7 +20,7 @@ export const weatherCommand = {
             },
         ],
     },
-    async execute(interaction: CommandInteraction) {
+    async execute(interaction: CommandInteraction): Promise<void> {
         
         var embedsProvider = new EmbedsProvider();
         const location = "";//interaction.options.get('location').value as string;
