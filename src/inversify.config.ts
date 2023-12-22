@@ -1,10 +1,9 @@
-require('dotenv').config();
 import "reflect-metadata";
 import {Container} from "inversify";
 import {TYPES} from "./Types";
 import {Gaffer} from "./Gaffer";
 import {Client, GatewayIntentBits} from "discord.js";
-import * as process from "process";
+import config from "./configs/config";
 
 let container = new Container();
 
@@ -18,6 +17,6 @@ container.bind<Client>(TYPES.Client).toConstantValue(new Client({
     ]
 }));
 
-container.bind<string>(TYPES.Token).toConstantValue(process.env.CLIENT_TOKEN);
+container.bind<string>(TYPES.Token).toConstantValue(config.CLIENT_TOKEN);
 
 export default container;

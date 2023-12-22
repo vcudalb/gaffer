@@ -18,6 +18,6 @@ export class Gaffer {
     }
     public listen(): Promise<string>{
         this.client.on('message', (message: Message): void => {});
-        return this.client.login('token should be here');
+        return this.client.login(this.token);
     }
 }
