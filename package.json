@@ -2,11 +2,12 @@
   "name": "gaffer",
   "version": "1.0.0",
   "description": "This repository is maintained by [vcudalb](cudalb.vasile@gmail.com) and licensed under the [MIT License](LICENSE.txt).",
-  "main": "src/gaffer.js",
+  "main": "src/index.ts",
   "directories": {
     "test": "tests"
   },
   "author": "vcudalb",
+  "type": "module",
   "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^1.6.5",
@@ -22,21 +23,21 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "chai": "^4.2.0",
     "eslint": "^8.56.0",
     "eslint-config-standard-with-typescript": "^43.0.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.4.0",
     "eslint-plugin-promise": "^6.1.1",
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
-    "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "ts-mockito": "^2.3.1",
-    "ts-node": "^8.0.3"
+    "ts-node": "^8.10.2"
   },
   "scripts": {
-    "start": "node src/gaffer.js",
+    "start": "node src/index.ts",
     "watch": "tsc -p tsconfig.json -w",
     "test": "mocha -r ts-node/register \"tests/**/*.spec.ts\""
   }

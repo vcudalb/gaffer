@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "target": "es2020",
     "lib": [
       "es6",
@@ -11,10 +12,10 @@
     "types": [
       // add node as an option
       "node",
-      "reflect-metadata"
+      "reflect-metadata",
     ],
     "typeRoots": [
-      // add path to @types
+      "./global.d.ts",
       "node_modules/@types"
     ],
     "emitDecoratorMetadata": true,
@@ -30,7 +31,8 @@
     "importHelpers": true,
     "resolveJsonModule": true,
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "esModuleInterop": true,
+  "moduleResolution": "node",
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./node_modules"]
 }
