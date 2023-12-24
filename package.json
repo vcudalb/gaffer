@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "author": "vcudalb",
-  "type": "module",
+  "type": "commonjs",
   "license": "MIT",
   "dependencies": {
     "@discordjs/builders": "^1.6.5",
@@ -15,7 +15,7 @@
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
     "country-code-emoji": "^2.3.0",
-    "discord.js": "^14.13.0",
+    "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "inversify": "^6.0.2",
     "node-cron": "^3.0.2",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
+    "@types/reflect-metadata": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "chai": "^4.2.0",
     "eslint": "^8.56.0",
@@ -37,7 +38,7 @@
     "ts-node": "^8.10.2"
   },
   "scripts": {
-    "start": "node src/index.ts",
+    "start": "ts-node src/index.ts",
     "watch": "tsc -p tsconfig.json -w",
     "test": "mocha -r ts-node/register \"tests/**/*.spec.ts\""
   }

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import 'dotenv/config';
 import container from "./inversify.config";
 import {TYPES} from "./Types";
