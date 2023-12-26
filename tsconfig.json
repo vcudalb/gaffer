@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "commonjs",
-    "rootDir": "./src/",
+    "rootDir": "./src",
     "moduleResolution": "node",
     "importHelpers": true,
     "experimentalDecorators": true,
@@ -37,7 +37,7 @@
     "src/index.ts"
   ],
   "include": [
-    "/src/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules", "dist", "*.js", "**/*.js"

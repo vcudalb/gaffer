@@ -1,12 +1,17 @@
-import { CommandInteraction } from 'discord.js';
+import {CommandInteraction, SlashCommandBuilder} from 'discord.js';
 // @ts-ignore
 import { get } from 'axios';
-import {EmbedsProvider} from "../../core/providers/EmbedsProvider";
+// @ts-ignore
+import {EmbedsProvider} from "../core/providers/EmbedsProvider";
 
 const API_URLS = {
     current: 'https://api.weatherapi.com/v1/current.json',
 };
 
+const slashCommand = new SlashCommandBuilder()
+    .setName("weather").setDescription("Shows remaining time until you will be destroyed and humiliated by Masya (23:00)");
+
+export {slashCommand}
 export const weather = {
     data: {
         name: 'weather',

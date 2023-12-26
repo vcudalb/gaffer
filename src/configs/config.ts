@@ -1,5 +1,6 @@
 import path from "path";
 import dotenv from "dotenv";
+import * as process from "process";
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 interface ENV {

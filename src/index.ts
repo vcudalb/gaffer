@@ -6,8 +6,11 @@ import {Gaffer} from "./Gaffer";
 
 let gaffer = container.get<Gaffer>(TYPES.Gaffer);
 
-gaffer.listen().then(() => {
-    console.log('Logged in!')
-}).catch((error) => {
-    console.log('Oh no! ', error)
+gaffer.start().then(()=> {
+    console.log('Gaffer started!');
+}).catch((reason:any) => {
+    console.log('Start of the bot failed with reason: ', reason )});
+
+gaffer.client.on('interactionCreate', async (interaction) => {
+    await gaffer.handleInteraction(interaction);
 });
