@@ -1,4 +1,4 @@
-import {ApplicationCommandData, Client, Collection, Interaction, Message} from "discord.js";
+import {ApplicationCommandData, Client, Collection, CommandInteraction, Interaction, Message} from "discord.js";
 import {inject, injectable} from "inversify";
 import {TYPES} from "./Types";
 import path from "path";
@@ -25,13 +25,13 @@ export class Gaffer {
     }
 
     public async start(): Promise<void> {
-        await this.deployCommands();
         await this.client.login(this.token);
+        await this.deployCommands();
     }
 
     public async handleInteraction(interaction: Interaction) {
         if (!interaction.isCommand()) return;
-
+        
         const { commandName } = interaction;
         const command = this.commands.find(cmd => cmd.name === commandName);
 
@@ -58,7 +58,7 @@ export class Gaffer {
         const commands = await this.loadCommandsFromFolder(commandsFolder);
 
         try {
-            const [commandArray] = await Promise.all([this.client.application?.commands.set(commands) ?? []]);
+            const commandArray = await this.client.application?.commands.set(commands);
             console.log('Deployed commands:', commandArray);
         } catch (error) {
             console.error('Error deploying commands:', error);

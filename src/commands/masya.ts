@@ -1,12 +1,12 @@
-import {BooleanCache, CommandInteraction, InteractionResponse, Message, SlashCommandBuilder} from "discord.js";
+import {ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
 
-const slashCommand = new SlashCommandBuilder()
-    .setName("masya").setDescription("Shows remaining time until you will be destroyed and humiliated by Masya (23:00)");
+const slashCommand = new SlashCommandBuilder().setName("masya").setDescription("Shows remaining time until you will be destroyed and humiliated by Masya (23:00)");
 
-export async function execute(interaction: CommandInteraction): Promise<any> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const {hours, minutes, seconds} = formatRemainingTime(getRemainingTime(23, 0, 0));
+    const message: string = `Time left until you will be destroyed and humiliated by Masya: ${hours}h ${minutes}m ${seconds}s.`.toString();
+    await interaction.reply(message);
     await interaction.deferReply();
-    await interaction.editReply(`Time left until you will be destroyed and humiliated by Masya: ${hours}h ${minutes}m ${seconds}s.`);
 }
 
 export {slashCommand};

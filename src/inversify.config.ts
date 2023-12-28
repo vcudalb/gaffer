@@ -12,8 +12,9 @@ container.bind<Client>(TYPES.Client).toConstantValue(new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.MessageContent
     ]
 }));
 
