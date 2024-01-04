@@ -9,7 +9,7 @@ let faceitService = new FaceitApiService();
 const command: SlashCommand = {
     command: new SlashCommandBuilder()
         .setName('cs2-lifetime')
-        .setDescription('Fetches CS2 lifetime stats for provided user')
+        .setDescription('Fetches CS2 lifetime stats for the provided user')
         .addStringOption((option) => {
             return option.setName('username').setDescription('The Faceit username to fetch stats for').setRequired(true);
         }) as SlashCommandBuilder,
@@ -46,6 +46,7 @@ const command: SlashCommand = {
             await interaction.reply(`Oh no, buddy! It looks like those other pups won't play with us today 🐶`);
         }
     },
+    cooldown: 5
 };
 
 export default command;

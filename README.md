@@ -13,10 +13,12 @@ To invite Gaffer to your server, click [here](#).
 
 ## Commands
 
-Gaffer supports the following commands:
+Gaffer supports the following slash commands:
 
-- `!bark`: Responds with a lighthearted "Gaf gaf" message, adding a touch of playfulness.
-- `!masya`: Displays the time remaining until 23:00, helping users to manage their schedules.
+- `/masya`: Displays the time remaining until 23:00, helping users to manage their schedules.
+- `/weather`: Provides weather stats for a specific location.
+- `/cs-lifetime`: Fetches CS2 lifetime stats for the provided user.
+- `/cs-lifetime-map`: Fetches CS2 lifetime stats for the provided user and the specific map.
 
 ## Build and Tests
 
@@ -27,7 +29,7 @@ To run Gaffer locally:
 3. In the project folder, run `npm install` to install dependencies.
 4. Create a Discord bot in the [Discord Developer Portal](https://discord.com/developers/applications) and retrieve your bot token.
 5. Create the `.env` file and add the following key `CLIENT_TOKEN=YOUR_TOKEN_KEY`. 
-6. Execute `node gaffer.js` to start the bot.
+6. Execute `ts-node src/index.ts` to start the bot.
 
 > [!IMPORTANT]
 > Please update the `YOUR_TOKEN_KEY` with corresponding token value from discord developer portal.

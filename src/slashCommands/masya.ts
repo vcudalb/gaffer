@@ -5,12 +5,12 @@ const command: SlashCommand = {
     command: new SlashCommandBuilder()
         .setName("masya")
         .setDescription("Shows remaining time until you will be destroyed and humiliated by Masya (23:00)"),
-    execute: interaction => {
+    execute: async interaction => {
         const {hours, minutes, seconds} = formatRemainingTime(getRemainingTime(23, 0, 0));
         const message: string = `Time left until you will be destroyed and humiliated by Masya: ${hours}h ${minutes}m ${seconds}s.`.toString();
-        interaction.reply(message);
+        await interaction.reply(message);
     },
-    cooldown: 60
+    cooldown: 5
 }
 
 function formatRemainingTime(remainingTimeInMillis: number) {

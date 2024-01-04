@@ -33,7 +33,7 @@ const command: SlashCommand = {
             await interaction.reply('An error occurred while fetching the weather data.');
         }
     },
-    cooldown: 2,
+    cooldown: 5,
 };
 
 const API_URLS = {
