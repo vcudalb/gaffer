@@ -5,7 +5,6 @@ import { SlashCommand } from "../../global";
 
 module.exports = (client : Client) => {
     const slashCommands : SlashCommandBuilder[] = []
-
     let slashCommandsDir = join(__dirname,"../slashCommands")
 
     readdirSync(slashCommandsDir).forEach(file => {

@@ -7,7 +7,6 @@ const API_URLS = {
 };
 
 export class FaceitApiService implements IFaceitApiService{
-    
     public async fetchUserInfo(username: string): Promise<any | null> {
         const userData = await this.fetchData(`${API_URLS.userInfo}${username}`);
         return userData?.payload?.games?.cs2 ? userData : null;
