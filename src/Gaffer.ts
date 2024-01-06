@@ -1,4 +1,4 @@
-import {Client, Message} from "discord.js";
+import {Client} from "discord.js";
 import {inject, injectable} from "inversify";
 import {TYPES} from "./Types";
 

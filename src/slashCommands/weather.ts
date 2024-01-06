@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import {Client, SlashCommandBuilder} from 'discord.js';
 import { SlashCommand } from '../../global';
 import axios from 'axios';
 import { EmbedsProvider } from '../core/providers/EmbedsProvider';
