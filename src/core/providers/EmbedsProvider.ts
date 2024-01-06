@@ -79,6 +79,24 @@ export class EmbedsProvider implements IEmbedsProvider {
         };
     }
 
+    public getDadJokeEmbeds(dadJoke: string) {
+        return {
+            color: 0xFFD700,
+            author: {
+                name: `Dad Jokes`,
+                icon_url: `${baseImagePath}dad-joke.png`,
+                url: 'https://icanhazdadjoke.com/',
+            },
+            url: 'https://icanhazdadjoke.com/',
+            title: dadJoke,
+            footer: {
+                text: '',
+            },
+            text: `Ba Dum Tss! 🥁 \n Explore more commands using: !gaffer-help \n`,
+            icon_url: `${baseImagePath}piosg.PNG`,
+        };
+    }
+
     private replaceUndefined(fields: any[]): void {
         fields.forEach(field => {
             if (field.value === undefined) {
