@@ -32,7 +32,7 @@ export class EmbedsProvider implements IEmbedsProvider {
                 url: generalData.payload.avatar || `${baseImagePath}saddog.png`
             },
             footer: {
-                text: `Explore more commands using: !gaffer-help \n`,
+                text: `Explore more commands using: /gaffer-help \n`,
                 icon_url: `${baseImagePath}piosg.PNG`,
             }
         };
@@ -54,7 +54,7 @@ export class EmbedsProvider implements IEmbedsProvider {
                 url: `${baseImagePath}${mapName}.jpg` || 'https://corporate.faceit.com/wp-content/uploads/corporate-banner.jpg',
             },
             footer: {
-                text: `Explore more commands using: !gaffer-help \n`,
+                text: `Explore more commands using: /gaffer-help \n`,
                 icon_url: `${baseImagePath}piosg.PNG`,
             }
         };
@@ -73,7 +73,7 @@ export class EmbedsProvider implements IEmbedsProvider {
             },
             fields: fields,
             footer: {
-                text: `Explore more commands using: !gaffer-help \n`,
+                text: `Explore more commands using: /gaffer-help \n`,
                 icon_url: `${baseImagePath}piosg.PNG`,
             }
         };
@@ -83,17 +83,16 @@ export class EmbedsProvider implements IEmbedsProvider {
         return {
             color: 0xFFD700,
             author: {
-                name: `Dad Jokes`,
+                name: `Dad once said`,
                 icon_url: `${baseImagePath}dad-joke.png`,
                 url: 'https://icanhazdadjoke.com/',
             },
             url: 'https://icanhazdadjoke.com/',
             title: dadJoke,
             footer: {
-                text: '',
+                text: `Ba Dum Tss! 🥁 \n Explore more commands using: /gaffer-help \n`,
+                icon_url: `${baseImagePath}piosg.PNG`,
             },
-            text: `Ba Dum Tss! 🥁 \n Explore more commands using: !gaffer-help \n`,
-            icon_url: `${baseImagePath}piosg.PNG`,
         };
     }
 

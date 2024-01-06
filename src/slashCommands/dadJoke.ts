@@ -1,6 +1,8 @@
 import {SlashCommandBuilder} from 'discord.js';
 import {SlashCommand} from '../../global';
 import axios from 'axios';
+import { EmbedsProvider } from '../core/providers/EmbedsProvider';
+const embedsProvider = new EmbedsProvider();
 
 const command: SlashCommand = {
     command: new SlashCommandBuilder()
@@ -16,17 +18,7 @@ const command: SlashCommand = {
             const {status, data} = response;
 
             if (status === 200) {
-                const dadJoke = data.joke;
-
-                const embed = {
-                    color: 0xFFD700, // Gold color
-                    title: 'Dad Joke Time',
-                    description: dadJoke,
-                    footer: {
-                        text: 'Ba Dum Tss! 🥁',
-                    },
-                };
-
+                const embed = embedsProvider.getDadJokeEmbeds(data.joke);
                 await interaction.reply({embeds: [embed]});
             } else {
                 await interaction.reply('Failed to fetch dad joke :(');
