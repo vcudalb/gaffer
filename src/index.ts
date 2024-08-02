@@ -1,32 +1,32 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import container from "./inversify.config";
-import {TYPES} from "./Types";
-import {Gaffer} from "./Gaffer";
-import {Collection} from "discord.js";
-import {SlashCommand} from "../global";
-import {join} from "path";
-import {readdirSync} from "fs";
+import { TYPES } from "./Types";
+import { Gaffer } from "./Gaffer";
+import { Collection } from "discord.js";
+import { SlashCommand } from "../global";
+import {LoaderHandler} from "./handlers/LoaderHandler";
 
-let gaffer = container.get<Gaffer>(TYPES.Gaffer);
+const gaffer = container.get<Gaffer>(TYPES.Gaffer);
 
-gaffer.login().then(() => {
-    console.log(`Logged in as ${gaffer.client.user?.tag}`);
+// Start the bot
+gaffer.login()
+    .then(async () => {
+        gaffer.client.slashCommands = new Collection<string, SlashCommand>();
+        gaffer.client.cooldowns = new Collection<string, number>();
 
-    gaffer.client.slashCommands = new Collection<string, SlashCommand>()
-    gaffer.client.cooldowns = new Collection<string, number>()
-
-    const handlersDir = join(__dirname, "./handlers")
-    readdirSync(handlersDir).forEach(handler => {
-        if (!handler.endsWith(".ts")) return;
-        require(`${handlersDir}/${handler}`)(gaffer.client)
+        const loaderHandler = new LoaderHandler(gaffer.client);
+        loaderHandler.loadHandlers();
+        
+        try {
+            await gaffer.deployCommands();
+            console.log('Commands deployed successfully');
+        } catch (reason: unknown) {
+            const errMsg = (reason as Error).message || 'Unknown error';
+            console.error('Deploy of the commands failed with reason: ', errMsg);
+        }
     })
-
-    gaffer.deployCommands().then(() => {
-    }).catch((reason: any) => {
-        console.log('Deploy of the commands failed with reason: ', reason)
+    .catch((reason: unknown) => {
+        const errMsg = (reason as Error).message || 'Unknown error';
+        console.error('Start of the bot failed with reason: ', errMsg);
     });
-    
-}).catch((reason: any) => {
-    console.log('Start of the bot failed with reason: ', reason)
-});

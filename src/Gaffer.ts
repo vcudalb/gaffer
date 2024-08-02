@@ -17,6 +17,7 @@ export class Gaffer {
     
     public async login(): Promise<void> {
         await this.client.login(this.token);
+        console.log(`Logged in as ${this.client.user?.tag}`)
     }
 
     public async deployCommands(): Promise<void> {
