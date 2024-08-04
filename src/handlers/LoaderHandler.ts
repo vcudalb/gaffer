@@ -4,8 +4,8 @@ import {join} from 'path';
 import {ILoader} from "./loaders/abstractions/ILoader";
 
 export class LoaderHandler {
-    private client: Client;
-    private handlersDir: string;
+    private readonly client: Client;
+    private readonly handlersDir: string;
 
     constructor(client: Client) {
         this.client = client;
@@ -22,8 +22,7 @@ export class LoaderHandler {
 
     private async loadHandler(file: string): Promise<void> {
         try {
-            const modulePath = join(this.handlersDir, file);
-            const module = await import(modulePath);
+            const module = await import(join(this.handlersDir, file));
             const HandlerClass = module.default;
 
             if (typeof HandlerClass === 'function') {

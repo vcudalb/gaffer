@@ -22,8 +22,8 @@ export class FaceitApiService implements IFaceitApiService{
             if (response.status === 200 && response.data) return response.data;
             return null;
         }catch (error) {
-            // @ts-ignore
-            throw new Error(`Error while fetching data from Faceit API, error message: ${error.message}`);
+            const errMsg = (error as Error).message || 'Unknown error';
+            throw new Error(`Error while fetching data from Faceit API, error message: ${errMsg}`);
         }
     }
 }
