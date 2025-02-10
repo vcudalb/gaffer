@@ -6,7 +6,7 @@ const API_URLS = {
     lifetimeStats: 'https://api.faceit.com/stats/v1/stats/users/'
 };
 
-export class FaceitApiService implements IFaceitApiService{
+export class FaceitApiService implements IFaceitApiService {
     public async fetchUserInfo(username: string): Promise<any | null> {
         const userData = await this.fetchData(`${API_URLS.userInfo}${username}`);
         return userData?.payload?.games?.cs2 ? userData : null;
@@ -16,12 +16,12 @@ export class FaceitApiService implements IFaceitApiService{
         return await this.fetchData(`${API_URLS.lifetimeStats}${userId}/games/cs2`);
     }
 
-    private async fetchData(url: string): Promise<any>{
-        try{
+    private async fetchData(url: string): Promise<any> {
+        try {
             const response: AxiosResponse = await axios.get(url);
             if (response.status === 200 && response.data) return response.data;
             return null;
-        }catch (error) {
+        } catch (error) {
             const errMsg = (error as Error).message || 'Unknown error';
             throw new Error(`Error while fetching data from Faceit API, error message: ${errMsg}`);
         }
